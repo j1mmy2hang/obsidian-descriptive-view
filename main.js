@@ -29,6 +29,7 @@ const {
   Setting,
   SearchComponent,
   Menu,
+  Platform,
   setIcon,
   setTooltip,
   debounce,
@@ -548,6 +549,15 @@ module.exports = class DescriptiveViewPlugin extends Plugin {
   /* Clicks are queued: a second click while the pane is still being built
      would otherwise find no pane yet and split a second one. */
   showSearch(query, anchor) {
+    /* A phone cannot split a sidebar: core's createLeafBySplit falls back to
+       a new tab in the same drawer and makes it active, so the view stops
+       being the tab showing and syncSearchPane closes the pane at once. On a
+       phone the search goes to core's own Search instead. */
+    if (Platform.isPhone) {
+      const search = this.app.internalPlugins.getEnabledPluginById("global-search");
+      if (search) search.openGlobalSearch(query);
+      return Promise.resolve();
+    }
     this.searchQueue = (this.searchQueue || Promise.resolve())
       .then(() => this.runSearch(query, anchor))
       .catch((e) => console.error(e));
