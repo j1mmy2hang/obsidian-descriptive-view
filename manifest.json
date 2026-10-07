@@ -1,0 +1,9 @@
+{
+  "id": "descriptive-view",
+  "name": "Descriptive View",
+  "version": "1.0.0",
+  "minAppVersion": "1.4.0",
+  "description": "Tags View for the values of the descriptive property: a tree of every value, with counts, sorting, nesting, a filter and click-to-search.",
+  "author": "Jimmy Zhang",
+  "isDesktopOnly": false
+}
